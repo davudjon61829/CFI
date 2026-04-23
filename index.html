@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #4f46e5;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #6366f1;
+        }
+
+        .result {
+            background-color: #f1f5f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <h2>Finance Calculator</h2>
+        <label for="loanAmount">Loan Amount ($)</label>
+        <input type="number" id="loanAmount" placeholder="Enter loan amount" />
+
+        <label for="interestRate">Interest Rate (%)</label>
+        <input type="number" id="interestRate" placeholder="Enter interest rate" />
+
+        <label for="loanTerm">Loan Term (Years)</label>
+        <input type="number" id="loanTerm" placeholder="Enter loan term in years" />
+
+        <button onclick="calculateLoan()">Calculate Monthly Payment</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateLoan() {
+            // Get user input values
+            var loanAmount = parseFloat(document.getElementById("loanAmount").value);
+            var interestRate = parseFloat(document.getElementById("interestRate").value) / 100 / 12; // Monthly rate
+            var loanTerm = parseFloat(document.getElementById("loanTerm").value) * 12; // Convert years to months
+
+            // Check if inputs are valid
+            if (isNaN(loanAmount) || isNaN(interestRate) || isNaN(loanTerm) || loanAmount <= 0 || interestRate <= 0 || loanTerm <= 0) {
+                document.getElementById("result").innerHTML = "<p style='color: red;'>Please enter valid values for all fields.</p>";
+                return;
+            }
+
+            // Calculate monthly payment using the loan payment formula
+            var monthlyPayment = (loanAmount * interestRate) / (1 - Math.pow(1 + interestRate, -loanTerm));
+
+            // Round to two decimal places
+            monthlyPayment = monthlyPayment.toFixed(2);
+
+            // Display result
+            document.getElementById("result").innerHTML = "<p>Your monthly payment is: <strong>$" + monthlyPayment + "</strong></p>";
+        }
+    </script>
+
+</body>
+</html>
